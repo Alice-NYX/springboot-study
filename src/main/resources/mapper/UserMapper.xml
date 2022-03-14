@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nyx.springbootstudy.mapper.UserMapper">
+
+    <resultMap id="result" type="com.nyx.springbootstudy.pojo.User">
+        <result property="phoneNumber" column="phoneNumber" />
+    </resultMap>
+
+    <!--查询所有数据-->
+    <select id="ListUser" resultMap="result">
+        SELECT * FROM vx_user
+    </select>
+
+    <select id="selectphoneNumber" resultMap="result">
+        SELECT * FROM vx_user where phoneNumber=#{phoneNumber}
+    </select>
+
+    <!--存入微信传过来的phoneNumber-->
+    <insert id="insertUser" parameterType="com.nyx.springbootstudy.pojo.User"
+            keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO vx_user(
+            encryptedData,iv,code,openid,session_key
+        )
+        VALUES(
+                  #{encryptedData},#{iv},#{code},#{openid},#{session_key}
+              )
+    </insert>
+
+    <update id="Update" parameterType="com.nyx.springbootstudy.pojo.User">
+        update vx_user
+        <set>
+            <if test="phoneNumber != null">phoneNumber=#{phoneNumber},</if>
+        </set>
+        where phoneNumber=#{phoneNumber}
+    </update>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nyx.springbootstudy.mapper.ResultMapper">
+
+    <resultMap id="result" type="com.nyx.springbootstudy.pojo.Result">
+        <result property="mp_result" column="mp_result" />
+        <result property="result" column="result" />
+        <result property="order_number" column="order_number" />
+    </resultMap>
+
+    <insert id="insertmp_result" parameterType="String"
+            keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO all_result(
+            mp_result,result
+        )
+        VALUES(
+                  #{mp_result},#{result}
+              )
+    </insert>
+
+
+    <select id="Listvx_result" resultMap="result">
+        SELECT * FROM all_result ORDER BY order_number DESC LIMIT 1
+    </select>
+</mapper>

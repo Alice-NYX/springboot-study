@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nyx.springbootstudy.mapper.MPMapper">
+
+    <resultMap id="result" type="com.nyx.springbootstudy.pojo.MP">
+        <result property="order_number" column="order_number" />
+        <result property="box_id" column="box_id" />
+        <result property="phoneNumber" column="phoneNumber" />
+    </resultMap>
+
+    <resultMap id="result1" type="com.nyx.springbootstudy.pojo.test">
+        <result property="box_id" column="box_id" />
+        <result property="a_address" column="a_address" />
+    </resultMap>
+
+    <!--查询用户数据-->
+    <select id="selectMPphoneNumber" resultMap="result">
+        SELECT * FROM mp_car where phoneNumber=#{phoneNumber}
+    </select>
+
+
+    <!--存入电话号码-->
+    <insert id="insertMP" parameterType="String"
+            keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO mp_car(
+           box_id,phoneNumber
+        )
+        VALUES(
+                  #{box_id},#{phoneNumber}
+              )
+    </insert>
+
+    <!--更改存储状态-->
+    <update id="UpdateMP" parameterType="com.nyx.springbootstudy.pojo.MP">
+        update mp_car
+        <set>
+            <if test="order_number != null">order_number=#{order_number}</if>
+            <if test="box_id != null">box_id=#{box_id}</if>
+        </set>
+        where order_number=#{order_number}
+    </update>
+
+<!--    查询result是否为ok-->
+    <select id="selectresult" resultMap="result">
+        SELECT * FROM mp_car where order_number=#{order_number}
+    </select>
+
+
+
+    <select id="ListMP" resultMap="result1">
+        SELECT  m.box_id,v.a_address FROM mp_car m,vx_order v where m.order_number=v.order_number ORDER BY v.order_number DESC LIMIT 1
+    </select>
+
+
+    <insert id="insertresult" parameterType="String"
+            keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO mp_car(
+            result ,phoneNumber
+        )
+        VALUES(
+                  #{box_id},#{phoneNumber}
+              )
+    </insert>
+
+    <select id="selectbox_id" resultMap="result">
+        SELECT box_id FROM mp_car ORDER BY order_number DESC LIMIT 1
+    </select>
+
+</mapper>
